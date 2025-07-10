@@ -1,5 +1,5 @@
 import './style.css'
-import { renderSurface, transformIsometricPath , RenderIsometricBlock} from './counter.ts'
+import { renderSurface, minecraftBlocks , RenderIsometricBlock} from './counter.ts'
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 var canvas = document.querySelector<HTMLCanvasElement>('#canvas');
@@ -61,11 +61,11 @@ function* generateAllBoolMatrices2x2x2(): Generator<[[[boolean, boolean], [boole
   }
 }
 var i: number = 0;
-for (const shape of generateAllBoolMatrices2x2x2()) {
+for (const shape of minecraftBlocks) {
     console.log("Shape", i++, shape);
     var paths = RenderIsometricBlock(shape);
     for (const path of paths) {
         drawPath(path, 100, [100, 200 * (i)], 'blue');
-        await delay(100);
+        await delay(10);
     }
 }

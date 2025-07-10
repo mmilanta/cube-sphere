@@ -8,6 +8,36 @@ export type BlockShape = [
         [boolean, boolean]
     ]
 ];
+
+export const minecraftBlocks: BlockShape[] = [
+    [[[true, true], [true, true]], [[true, true], [true, true]]], // Full cube
+    [[[true, false], [true, false]], [[true, false], [true, false]]], // Low slab
+    [[[false, true], [false, true]], [[false, true], [false, true]]], // Up slab
+    [[[true, true], [true, false]], [[true, true], [true, false]]], // Stair1
+    [[[true, true], [true, true]], [[true, false], [true, false]]], // Stair2
+    [[[true, false], [true, true]], [[true, false], [true, true]]], // Stair3
+    [[[true, false], [true, false]], [[true, true], [true, true]]], // Stair4
+    [[[true, true], [false, true]], [[true, true], [false, true]]], // Stair1 - upside down
+    [[[true, true], [true, true]], [[false, true], [false, true]]], // Stair2 - upside down
+    [[[false, true], [true, true]], [[false, true], [true, true]]], // Stair3 - upside down
+    [[[true, true], [false, true]], [[true, true], [true, true]]], // Stair4 - upside down
+    [[[true, true], [true, false]], [[true, false], [true, false]]], // OuterCornerStair1
+    [[[true, false], [true, true]], [[true, false], [true, false]]], // OuterCornerStair2
+    [[[true, false], [true, false]], [[true, false], [true, true]]], // OuterCornerStair3
+    [[[true, false], [true, false]], [[true, true], [true, false]]], // OuterCornerStair4
+    [[[true, true], [false, true]], [[false, true], [false, true]]], // OuterCornerStair1 -` upside down
+    [[[false, true], [false, true]], [[true, true], [false, true]]], // OuterCornerStair2 - upside down
+    [[[false, true], [true, true]], [[false, true], [false, true]]], // OuterCornerStair3 - upside down
+    [[[false, true], [false, true]], [[false, true], [true, true]]], // OuterCornerStair4 - upside down
+    [[[true, false], [true, true]], [[true, true], [true, true]]], // InnerCornerStair1
+    [[[true, true], [true, true]], [[true, false], [true, true]]], // InnerCornerStair2
+    [[[true, true], [true, false]], [[true, true], [true, true]]], // InnerCornerStair3
+    [[[true, true], [true, true]], [[true, true], [true, false]]], // InnerCornerStair4
+    [[[false, true], [true, true]], [[true, true], [true, true]]], // InnerCornerStair1 - upside down
+    [[[true, true], [true, true]], [[false, true], [true, true]]], // InnerCornerStair2 - upside down
+    [[[true, true], [false, true]], [[true, true], [true, true]]], // InnerCornerStair3 - upside down
+    [[[true, true], [true, true]], [[true, true], [false, true]]]  // InnerCornerStair4 - upside down
+]
 export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, boolean], [boolean, boolean]] {
     if (axis === 0) {
         return shape[idx];
@@ -22,8 +52,6 @@ export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, 
         throw new Error("Invalid axis: " + axis + ". Axis must be 0, 1, or 2.");
     }
 }
-type SubSurface = ["Up" | "East" | "North", 0 | 1 | 2,  0 | 1, 0 | 1];
-
 
 type Surface2d = Array<[number, number]>;
 type Surface3d = Array<[number, number, number]>;
@@ -65,7 +93,7 @@ export function renderSurface(data: [[boolean, boolean], [boolean, boolean]]): S
 export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
 
     var subSurfaces: Array<Surface3d> = []
-    for (let axis = 0; axis < 3; axis++) {
+    for (let axis = 2; axis >= 0; axis--) {
         var surface = slice(shape, axis, 0);
         var surface_2 = slice(shape, axis, 1);
         surface = [
