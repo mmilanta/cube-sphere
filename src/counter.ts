@@ -38,6 +38,7 @@ export const minecraftBlocks: BlockShape[] = [
     [[[true, true], [false, true]], [[true, true], [true, true]]], // InnerCornerStair3 - upside down
     [[[true, true], [true, true]], [[true, true], [false, true]]]  // InnerCornerStair4 - upside down
 ]
+
 export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, boolean], [boolean, boolean]] {
     if (axis === 0) {
         return shape[idx];
@@ -53,10 +54,14 @@ export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, 
     }
 }
 
-type Surface2d = Array<[number, number]>;
-type Surface3d = Array<[number, number, number]>;
 
-const sqrt3_2 = Math.sqrt(3) / 2;
+export type Coords2d = [number, number]
+export type Coords3d = [number, number, number]
+
+type Surface2d = Array<Coords2d>;
+type Surface3d = Array<Coords3d>;
+
+export const sqrt3_2 = Math.sqrt(3) / 2;
 
 export function renderSurface(data: [[boolean, boolean], [boolean, boolean]]): Surface2d {
     const [x00, x10] = data[0];
