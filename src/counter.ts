@@ -58,16 +58,16 @@ export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, 
 export type Coords2d = [number, number]
 export type Coords3d = [number, number, number]
 
-type Surface2d = Array<Coords2d>;
-type Surface3d = Array<Coords3d>;
+type Surface2d = [Array<Coords2d>, number]; // this is a path, and a axis 0,1,2 indicating orientation
+type Surface3d = [Array<Coords3d>, number]; 
 
 export const sqrt3_2 = Math.sqrt(3) / 2;
 
-export function renderSurface(data: [[boolean, boolean], [boolean, boolean]]): Surface2d {
+export function renderSurface(data: [[boolean, boolean], [boolean, boolean]]): Array<Coords2d> {
     const [x00, x10] = data[0];
     const [x01, x11] = data[1];
 
-    var circuit: Surface2d = [
+    var circuit: Array<Coords2d> = [
         [0, 0],
         [0.5, 0],
         [1, 0],
@@ -85,7 +85,7 @@ export function renderSurface(data: [[boolean, boolean], [boolean, boolean]]): S
     if ((! x11) && (! x01)) {circuit[3] = [.5, .5]}
     if ((! x10) && (! x11)) {circuit[5] = [.5, .5]}
     if ((! x00) && (! x10)) {circuit[7] = [.5, .5]}
-    var result: Surface2d = [circuit[0]]
+    var result: Array<Coords2d> = [circuit[0]]
     for (let i = 1; i < circuit.length; i++) {
         if (circuit[i] !== circuit[i - 1]) {
             result.push(circuit[i]);
@@ -108,7 +108,7 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
         console.log("Sliced surface", axis, 0, surface);
         var render = renderSurface(surface);
         console.log("render", render);
-        var subSurface: Surface3d = [];
+        var subSurface: Array<Coords3d> = [];
         for (let i = 0; i < render.length; i++) {
             const [x, y] = render[i];
             if (axis === 0) {
@@ -119,14 +119,14 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 0.5]);
             }
         }
-        subSurfaces.push(subSurface);
+        subSurfaces.push([subSurface, axis]);
     }
     for (let axis = 0; axis < 3; axis++) {
         var surface = slice(shape, axis, 1);
         console.log("Sliced surface", axis, 0, surface);
         var render = renderSurface(surface);
         console.log("render", render);
-        var subSurface: Surface3d = [];
+        var subSurface: Array<Coords3d> = [];
         for (let i = 0; i < render.length; i++) {
             const [x, y] = render[i];
             if (axis === 0) {
@@ -137,9 +137,9 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 1]);
             }
         }
-        subSurfaces.push(subSurface);
+        subSurfaces.push([subSurface, axis]);
     }
-    return subSurfaces.map(surface => transformIsometricPath(surface));
+    return subSurfaces.map(surface => [transformIsometricPath(surface[0]), surface[1]]);
 }
 
 export function transformIsometricPoint(
