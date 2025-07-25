@@ -18,13 +18,17 @@ export class IsometricCanvas{
     {
         this.context = context;
         this.size = size;
-        let hight: number = size[2] + (size[0] + size[1]) * 0.5;
+        let hight: number = size[2] + ((size[0] + size[1]) * 0.5);
         let width: number = (size[0] + size[1]) * sqrt3_2;
         this.ratio = Math.min(
             this.context.canvas.clientHeight / hight,
             this.context.canvas.clientWidth / width
         )
-        this.origin = [this.context.canvas.clientHeight * size[2] / hight, this.context.canvas.clientWidth * (size[0] * sqrt3_2) / width];
+
+        this.origin = [
+            this.context.canvas.clientWidth * size[0] / (size[0] + size[1]),
+            this.context.canvas.clientHeight * (size[0] + size[1]) * 0.5 / (size[2] + (size[0] + size[1]) * 0.5)
+        ];
         this.blocks = blocks;
         this.colors = colors;
         blocks.sort((a, b) => (a[1][0] + a[1][1] + a[1][2] - b[1][0] - b[1][1] - b[1][2]))
