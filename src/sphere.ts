@@ -93,6 +93,13 @@ function assignBlock(vals: number[][], use_corner: boolean):  {lift: number, sel
     // Compute lift
     const lift = Math.floor(Math.min(...flatVals));
 
+    if (Math.min(...flatVals) == 0){
+        return {
+            lift: 0,
+            selectedId: -1
+        }
+    }
+
     // Adjust values by subtracting lift
     const adjustedVals = flatVals.map(v => v - lift);
 
