@@ -153,17 +153,17 @@ export function get_sphere(radius: number, use_corner: boolean): Array<[BlockSha
         }
         data.push(row);
     }
-    var bloks_output: Array<[BlockShape, Coords3d]> = []
+    var blocks_output: Array<[BlockShape, Coords3d]> = []
     for (let i = 0; i < radius; i++) {
         for (let j = 0; j < radius; j++) {
             const {lift, selectedId} = assignBlock(get2x2Submatrix(data, i, j), use_corner)
             for (let k = 0; k < lift; k++) {
-                bloks_output.push([minecraftBlocks[0], [i, j, k]])
+                blocks_output.push([minecraftBlocks[0], [i, j, k]])
             }
             if (selectedId >= 0){
-                bloks_output.push([minecraftBlocks[selectedId], [i, j, lift]])
+                blocks_output.push([minecraftBlocks[selectedId], [i, j, lift]])
             }
         }
     }
-    return bloks_output
+    return blocks_output
 }
