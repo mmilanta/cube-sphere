@@ -83,7 +83,7 @@ const blocks: BlockTopView[] = [
         id: 21, // left
     },
 ];
-const blocks_no_corner: BlockTopView[] = blocks.slice(0, 6);
+const blocks_no_corner: BlockTopView[] = blocks.slice(0, 7);
 
 
 function assignBlock(vals: number[][], use_corner: boolean):  {lift: number, selectedId: number}{

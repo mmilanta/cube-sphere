@@ -75,3 +75,6 @@ window.addEventListener('resize', () => {
     canvas.height = rect.height - 100;
     read_slider_and_render()
 });
+
+blocks = get_sphere(radius, cornerToggle.checked)
+read_slider_and_render()
