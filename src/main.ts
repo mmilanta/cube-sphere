@@ -20,7 +20,9 @@ slider.addEventListener('input', () => {
 function read_slider_and_render(){
     const val = parseInt(slider.value);
     label.textContent = val.toString();
+    console.log("start")
     const blocks = get_sphere(val)
+    console.log("generated")
     if (!ctx) {
         throw new Error("Cannot build context");
     }
@@ -28,8 +30,9 @@ function read_slider_and_render(){
         ctx,
         [val, val, val],
         blocks,
-        "green"
+        ["#933DF0", "#5F0EB5", "#C392F7"]
     )
     isometric_canvas.render();
+    console.log("drawn")
 }
 read_slider_and_render()

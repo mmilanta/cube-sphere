@@ -58,8 +58,14 @@ export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, 
 export type Coords2d = [number, number]
 export type Coords3d = [number, number, number]
 
-type Surface2d = Array<Coords2d> // this is a path, and a axis 0,1,2 indicating orientation
-type Surface3d = Array<Coords3d>
+type Surface2d = {
+    contour: Array<Coords2d>,
+    axis: number  // axis 0,1,2 indicating axis
+}
+type Surface3d = {
+    contour: Array<Coords3d>,
+    axis: number  // axis 0,1,2 indicating axis
+}
 
 export const sqrt3_2 = Math.sqrt(3) / 2;
 
@@ -117,7 +123,7 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 0.5]);
             }
         }
-        subSurfaces.push(subSurface);
+        subSurfaces.push({contour: subSurface, axis: axis});
     }
     for (let axis = 0; axis < 3; axis++) {
         var surface = slice(shape, axis, 1);
@@ -133,9 +139,9 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 1]);
             }
         }
-        subSurfaces.push(subSurface);
+        subSurfaces.push({contour: subSurface, axis: axis});
     }
-    return subSurfaces.map(surface => transformIsometricPath(surface));
+    return subSurfaces.map(surface => {return {contour: transformIsometricPath(surface.contour), axis: surface.axis}});
 }
 
 export function transformIsometricPoint(
