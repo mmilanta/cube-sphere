@@ -3,11 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <title>Sphere stairs</title>
+    <style>
+      #slider-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 10px;
+        font-family: sans-serif;
+      }
+
+      #slider {
+        flex: 1;
+      }
+
+      #value-label {
+        width: 40px;
+        text-align: right;
+      }
+    </style>
   </head>
   <body>
-    <div id="app">
-        <canvas id="canvas" width="800" height="800"></canvas>
+    <div id="slider-container">
+      <label for="slider">Value:</label>
+      <input type="range" id="slider" min="1" max="101" value="1" />
+      <span id="value-label">1</span>
     </div>
+
+    <div id="app">
+      <canvas id="canvas" width="800" height="800"></canvas>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

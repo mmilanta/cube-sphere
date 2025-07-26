@@ -58,8 +58,8 @@ export function slice(shape: BlockShape, axis: number, idx: number): [[boolean, 
 export type Coords2d = [number, number]
 export type Coords3d = [number, number, number]
 
-type Surface2d = [Array<Coords2d>, number]; // this is a path, and a axis 0,1,2 indicating orientation
-type Surface3d = [Array<Coords3d>, number]; 
+type Surface2d = Array<Coords2d> // this is a path, and a axis 0,1,2 indicating orientation
+type Surface3d = Array<Coords3d>
 
 export const sqrt3_2 = Math.sqrt(3) / 2;
 
@@ -105,9 +105,7 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
             [surface[0][0] && !surface_2[0][0], surface[0][1] && !surface_2[0][1]],
             [surface[1][0] && !surface_2[1][0], surface[1][1] && !surface_2[1][1]],
         ]
-        console.log("Sliced surface", axis, 0, surface);
         var render = renderSurface(surface);
-        console.log("render", render);
         var subSurface: Array<Coords3d> = [];
         for (let i = 0; i < render.length; i++) {
             const [x, y] = render[i];
@@ -119,13 +117,11 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 0.5]);
             }
         }
-        subSurfaces.push([subSurface, axis]);
+        subSurfaces.push(subSurface);
     }
     for (let axis = 0; axis < 3; axis++) {
         var surface = slice(shape, axis, 1);
-        console.log("Sliced surface", axis, 0, surface);
         var render = renderSurface(surface);
-        console.log("render", render);
         var subSurface: Array<Coords3d> = [];
         for (let i = 0; i < render.length; i++) {
             const [x, y] = render[i];
@@ -137,9 +133,9 @@ export function RenderIsometricBlock(shape: BlockShape): Array<Surface2d> {
                 subSurface.push([x, y, 1]);
             }
         }
-        subSurfaces.push([subSurface, axis]);
+        subSurfaces.push(subSurface);
     }
-    return subSurfaces.map(surface => [transformIsometricPath(surface[0]), surface[1]]);
+    return subSurfaces.map(surface => transformIsometricPath(surface));
 }
 
 export function transformIsometricPoint(
