@@ -91,7 +91,7 @@ function assignBlock(vals: number[][]):  {lift: number, selectedId: number}{
     const flatVals = vals.flat().map(v => v / 2);
 
     // Compute lift
-    const lift = Math.floor(Math.max(...flatVals.map(v => v / 2))) * 2;
+    const lift = Math.floor(Math.min(...flatVals));
 
     // Adjust values by subtracting lift
     const adjustedVals = flatVals.map(v => v - lift);
