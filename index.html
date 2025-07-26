@@ -52,6 +52,13 @@ canvas {
   height: 100%;
   display: block;
 }
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+}
+
 
     </style>
   </head>
@@ -67,7 +74,10 @@ canvas {
         <input type="range" id="slider-cut" min="1" max="13" value="13" />
       </div>
     </div>
-
+      <div class="checkbox-group">
+        <input type="checkbox" id="corner-toggle" />
+        <label for="cornerToggle">Use corner stairs</label>
+      </div>
     <div id="app">
       <canvas id="canvas"></canvas>
     </div>

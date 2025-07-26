@@ -83,10 +83,10 @@ const blocks: BlockTopView[] = [
         id: 21, // left
     },
 ];
+const blocks_no_corner: BlockTopView[] = blocks.slice(0, 6);
 
 
-
-function assignBlock(vals: number[][]):  {lift: number, selectedId: number}{
+function assignBlock(vals: number[][], use_corner: boolean):  {lift: number, selectedId: number}{
     // Flatten the 2x2 input matrix
     const flatVals = vals.flat().map(v => v / 2);
 
@@ -98,8 +98,8 @@ function assignBlock(vals: number[][]):  {lift: number, selectedId: number}{
 
     let minError = Infinity;
     let selectedId = -1;
-
-    for (const block of blocks) {
+    const blocks_to_use = use_corner ? blocks : blocks_no_corner;
+    for (const block of blocks_to_use) {
         const blockVals = block.values.flat(); // Flatten block's 2x2 matrix
         let error = 0;
 
@@ -132,10 +132,10 @@ function get2x2Submatrix(data: number[][], i: number, j: number): number[][] {
 }
 
 
-export function get_sphere(radius: number): Array<[BlockShape, Coords3d]>{
+export function get_sphere(radius: number, use_corner: boolean): Array<[BlockShape, Coords3d]>{
     const size = 2 * radius;
     const data: number[][] = [];
-
+    console.log("use_cornern", use_corner)
     // Generate height data
     for (let i = 0; i < size; i++) {
         const row: number[] = [];
@@ -150,7 +150,7 @@ export function get_sphere(radius: number): Array<[BlockShape, Coords3d]>{
     var bloks_output: Array<[BlockShape, Coords3d]> = []
     for (let i = 0; i < radius; i++) {
         for (let j = 0; j < radius; j++) {
-            const {lift, selectedId} = assignBlock(get2x2Submatrix(data, i, j))
+            const {lift, selectedId} = assignBlock(get2x2Submatrix(data, i, j), use_corner)
             for (let k = 0; k < lift; k++) {
                 bloks_output.push([minecraftBlocks[0], [i, j, k]])
             }

@@ -16,6 +16,9 @@ const label_radius = document.getElementById('label-radius') as HTMLLabelElement
 
 const slider_cut = document.getElementById('slider-cut') as HTMLInputElement;
 const label_cut = document.getElementById('label-cut') as HTMLLabelElement;
+
+const cornerToggle = document.getElementById('corner-toggle') as HTMLInputElement;
+console.log(cornerToggle)
 var blocks: Array<[BlockShape, Coords3d]> = []
 var radius: number = 13
 var cut: number = 7
@@ -46,8 +49,7 @@ slider_radius.addEventListener('input', () => {
     slider_cut.max = cut.toString();
     slider_cut.value = cut.toString();
     label_radius.textContent = "Radius: " + radius.toString();
-    blocks = get_sphere(radius)
-    isometric_canvas.render(cut=cut);
+    blocks = get_sphere(radius, cornerToggle.checked)
     read_slider_and_render()
 });
 
@@ -56,6 +58,11 @@ slider_cut.addEventListener('input', () => {
     console.log(cut)
     label_cut.textContent = "Cut: " + cut.toString();
     isometric_canvas.render(cut=cut);
+})
+
+cornerToggle.addEventListener('input', () => {
+    blocks = get_sphere(radius, cornerToggle.checked)
+    read_slider_and_render()
 })
 
 window.addEventListener('load', () => {
