@@ -93,7 +93,7 @@ function assignBlock(vals: number[][], use_corner: boolean):  {lift: number, sel
     // Compute lift
     const lift = Math.floor(Math.min(...flatVals));
 
-    if (Math.min(...flatVals) == 0){
+    if (flatVals.filter(x => x === 0).length >= 2){
         return {
             lift: 0,
             selectedId: -1
@@ -142,7 +142,6 @@ function get2x2Submatrix(data: number[][], i: number, j: number): number[][] {
 export function get_sphere(radius: number, use_corner: boolean): Array<[BlockShape, Coords3d]>{
     const size = 2 * radius;
     const data: number[][] = [];
-    console.log("use_cornern", use_corner)
     // Generate height data
     for (let i = 0; i < size; i++) {
         const row: number[] = [];
