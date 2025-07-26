@@ -20,14 +20,14 @@ export class IsometricCanvas{
         this.size = size;
         let hight: number = size[2] + ((size[0] + size[1]) * 0.5);
         let width: number = (size[0] + size[1]) * sqrt3_2;
-        this.ratio = Math.min(
+        this.ratio = 2 * Math.min(
             this.context.canvas.clientHeight / hight,
             this.context.canvas.clientWidth / width
         )
 
         this.origin = [
             this.context.canvas.clientWidth / 2,
-            this.context.canvas.clientHeight / 3
+            this.context.canvas.clientHeight / 4
         ];
         this.blocks = blocks;
         this.colors = colors;
@@ -51,11 +51,13 @@ export class IsometricCanvas{
             this.context.stroke();
         }
     }
-    render(){
+    render(cut: number){
         
         this.context.clearRect(0, 0, this.context.canvas.clientWidth, this.context.canvas.clientHeight);
         for (const block of this.blocks){
-            this._render_block(block[0], block[1])
+            if (block[1][2] < cut){
+                this._render_block(block[0], block[1])
+            }
         }
     }
 }
