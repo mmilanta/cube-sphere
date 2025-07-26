@@ -26,8 +26,8 @@ export class IsometricCanvas{
         )
 
         this.origin = [
-            this.context.canvas.clientWidth * size[0] / (size[0] + size[1]),
-            this.context.canvas.clientHeight * (size[0] + size[1]) * 0.5 / (size[2] + (size[0] + size[1]) * 0.5)
+            this.context.canvas.clientWidth / 2,
+            this.context.canvas.clientHeight / 3
         ];
         this.blocks = blocks;
         this.colors = colors;
