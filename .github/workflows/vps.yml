@@ -1,0 +1,47 @@
+name: Deploy to the Hetzner VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hetzner-vps
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci && npm run build -- --base=/cube-sphere/
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vps-site
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: vps-site
+          path: ${{ runner.temp }}/vps-site
+      - uses: mmilanta/mmilanta.github.io/.github/actions/publish-vps@f0b4a09a0868cfdf63430a1997dcb7d8100b6f59
+        with:
+          directory: ${{ runner.temp }}/vps-site
